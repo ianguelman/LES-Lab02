@@ -12,16 +12,16 @@ def main():
         'dit': float(data[0]['dit']),
         'loc': 0.0,
         'cbo': 0.0,
-        'lcom': 0.0
+        'lcom*': 0.0
     }
     
     for d in data:
         attributes['loc'] += int(d['loc'])
         attributes['cbo'] += int(d['cbo'])
-        attributes['lcom'] += int(d['lcom'])
+        attributes['lcom*'] += int(d['lcom*'])
         
     attributes['cbo'] = attributes['cbo']/len(data)
-    attributes['lcom'] = attributes['lcom']/len(data)
+    attributes['lcom*'] = attributes['lcom*']/len(data)
     
     print(attributes)
     
