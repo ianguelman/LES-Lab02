@@ -1,6 +1,6 @@
 FROM python:3.11.0a5-alpine3.15
 
-WORKDIR /home/python/lab01
+WORKDIR /home/python/lab02
 
 COPY . ./
 
