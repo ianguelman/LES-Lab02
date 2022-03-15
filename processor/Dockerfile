@@ -14,13 +14,16 @@ RUN apt install -y git
 RUN apt install -y openjdk-17-jdk maven
 
 # Go to CK folder to work
-WORKDIR /usr/share/lab01
+WORKDIR /usr/share/ck
 
 # Clone CK
 RUN git clone https://github.com/mauricioaniche/ck.git .
 
 # Build CK
 RUN mvn clean compile package
+
+# Move CK
+RUN mv ./target/*SNAPSHOT.jar /usr/bin/ck.jar
 
 # Install Python3
 RUN apt install -y python3 python3-pip
