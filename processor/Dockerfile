@@ -23,7 +23,7 @@ RUN git clone https://github.com/mauricioaniche/ck.git .
 RUN mvn clean compile package
 
 # Move CK
-RUN mv ./target/*SNAPSHOT.jar /usr/bin/ck.jar
+RUN mv ./target/*SNAPSHOT-jar-with-dependencies.jar /usr/bin/ck.jar
 
 # Install Python3
 RUN apt install -y python3 python3-pip
