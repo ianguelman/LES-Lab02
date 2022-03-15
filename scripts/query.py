@@ -6,7 +6,7 @@ from utils.graphql import GraphQL
 from utils.mongo import Mongo
 
 TOTAL_ITEMS = 1000
-PER_PAGE = 25
+PER_PAGE = 100
 
 def run():
     items_count = Mongo().get_documents_count()
@@ -19,38 +19,33 @@ def run():
         for x in range(0, ceil(TOTAL_ITEMS / PER_PAGE)):
             response = graphql.post(
                 """
-                query popularRepositories ($lastCursor: String, $perPage: Int) {
-                    search(query: "stars:>100", type: REPOSITORY, after: $lastCursor, first: $perPage) {
+                query popularRepositories($lastCursor: String, $perPage: Int) {
+                    search(
+                        query: "stars:>100, language:Java"
+                        type: REPOSITORY
+                        after: $lastCursor
+                        first: $perPage
+                    ) {
                         nodes {
                         ... on Repository {
-                                nameWithOwner
-                                url
-                                stargazerCount
-                                createdAt
-                                pullRequests(first: 10, states: MERGED) {
-                                    totalCount
-                                }
-                                releases {
-                                    totalCount
-                                }
-                                updatedAt
-                                primaryLanguage {
-                                    name
-                                }
-                                issues (first: 10){
-                                    totalCount
-                                }
-                                closed: issues(first: 10, states: CLOSED) {
-                                    totalCount
-                                }
+                            nameWithOwner
+                            url
+                            stargazerCount
+                            createdAt
+                            releases {
+                                totalCount
+                            }
+                            primaryLanguage {
+                                name
                             }
                         }
+                        }
                         pageInfo {
-                            endCursor
-                            hasNextPage
+                        endCursor
+                        hasNextPage
                         }
                     }
-                }
+                    }
                 """,
                 {
                     "lastCursor": last_cursor,
@@ -65,14 +60,10 @@ def run():
                 "url" : node["url"],
                 "stargazerCount": node["stargazerCount"],
                 "createdAt": node["createdAt"],
-                "pullRequests": node["pullRequests"]["totalCount"],
                 "releases": node["releases"]["totalCount"],
-                "updatedAt": node["updatedAt"],
-                "issues": node["issues"]["totalCount"],
-                "closed": node["closed"]["totalCount"],
-                "ratioOpenClosedIssues": get_percent(node["closed"]["totalCount"], node["issues"]["totalCount"]),
-                "updateFrequency": (datetime.datetime.now().replace(tzinfo=None) - parse(node["updatedAt"]).replace(tzinfo=None)).total_seconds()/60,
-                "age": (datetime.datetime.now().replace(tzinfo=None) - parse(node["createdAt"]).replace(tzinfo=None)).days
+                "primaryLanguage": node["primaryLanguage"]["name"],
+                "age": (datetime.datetime.now().replace(tzinfo=None) - parse(node["createdAt"]).replace(tzinfo=None)).days,
+                "processed": False
             }
             
             nodes = nodes + list(map(formatter, response["data"]["search"]["nodes"]))
