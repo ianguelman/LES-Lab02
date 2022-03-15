@@ -11,16 +11,16 @@ services:
       context: ./
       dockerfile: ./Dockerfile
     volumes:
-      - "./:/home/python/lab01"
+      - "./:/home/python/lab02"
     environment:
-      TOKEN: "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"
+      TOKEN: "???"
       API_URL: "https://api.github.com/graphql"
       DATABASE_HOST: mongo
       DATABASE_PORT: 27017
-      PRIMARY_DATABASE: lab01
+      PRIMARY_DATABASE: lab02
       PRIMARY_COLLECTION: github
       DATABASE_USERNAME: root
-      DATABASE_PASSWORD: LAB01
+      DATABASE_PASSWORD: LAB02
 
   mongo:
     image: mongo
@@ -34,6 +34,6 @@ services:
     - "./csv:/csv"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: LAB01
+      MONGO_INITDB_ROOT_PASSWORD: LAB02
     ports:
       - "27017:27017"
