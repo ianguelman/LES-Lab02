@@ -1,4 +1,5 @@
 import sys, os, json
+import numpy as np
 
 def main():
     repo_url: str = sys.argv[1]
@@ -10,19 +11,32 @@ def main():
 
     attributes = {
         'dit': float(data[0]['dit']),
-        'loc': 0.0,
-        'cbo': 0.0,
-        'lcom*': 0.0
+        'loc' : [],
+        'loc:mean': 0.0,
+        'loc:median': 0.0,
+        'loc:std': 0.0, 
+        'cbo' : [],
+        'cbo:mean': 0.0,
+        'cbo:median': 0.0,
+        'cbo:std': 0.0,
+        'lcom*' : [],
+        'lcom*:mean': 0.0,
+        'lcom*:median': 0.0,
+        'lcom*:std': 0.0
     }
     
     for d in data:
-        attributes['loc'] += float(d['loc'])
-        attributes['cbo'] += float(d['cbo'])
-        attributes['lcom*'] += float(d['lcom*'])
-        
-    attributes['cbo'] = attributes['cbo']/len(data)
-    attributes['lcom*'] = attributes['lcom*']/len(data)
+        for metric in ['loc', 'cbo', 'lcom*']:
+            if d[metric] != 'NaN':
+                attributes[metric] += [float(d[metric])]
     
+    for metric in ['loc', 'cbo', 'lcom*']:
+        attributes[metric+':mean'] = np.mean(attributes[metric])
+        attributes[metric+':median'] = np.median(attributes[metric])
+        attributes[metric+':std'] = np.std(attributes[metric])
+        del attributes[metric]
+
     print(json.dumps(attributes).replace('NaN', r'"Not processed."'))
     
 main()
+    

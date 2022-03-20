@@ -1,0 +1,2 @@
+nameWithOwner,url,stargazerCount,createdAt,releases,primaryLanguage,age,processed,dit,cbo:mean,cbo:median,cbo:std,loc:mean,loc:median,loc:std,lcom*:mean,lcom*:median,lcom*:std
+spring-projects/spring-boot,https://github.com/spring-projects/spring-boot,60165,2012-10-19T15:02:57Z,125,Java,3439,true,1,5.1937961882535975,4,5.921967327180551,28.799299883313886,11,57.543617937021565,0.16567705951363013,0,0.28063777940348966
