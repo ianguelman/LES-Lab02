@@ -1,5 +1,6 @@
 from ast import List
 import os
+from pydoc import doc
 from typing import Collection
 import pymongo
 
@@ -27,6 +28,17 @@ class Mongo:
         self.__collection = self.__database[os.environ['PRIMARY_COLLECTION']]
         self.__collection.insert_many(value)
 
+    def update_one(self, query, value):
+        self.__collection = self.__database[os.environ['PRIMARY_COLLECTION']]
+        self.__collection.update_one(query, value)
+
     def get_documents_count(self):
         self.__collection = self.__database[os.environ['PRIMARY_COLLECTION']]
         return self.__collection.count_documents({})
+    
+    def get_all_documents(self):
+        self.__collection = self.__database[os.environ['PRIMARY_COLLECTION']]
+        documents = []
+        for document in self.__collection.find({}):
+          documents.append(document)
+        return documents

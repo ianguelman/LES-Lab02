@@ -16,13 +16,13 @@ def main():
     }
     
     for d in data:
-        attributes['loc'] += int(d['loc'])
-        attributes['cbo'] += int(d['cbo'])
-        attributes['lcom*'] += int(d['lcom*'])
+        attributes['loc'] += float(d['loc'])
+        attributes['cbo'] += float(d['cbo'])
+        attributes['lcom*'] += float(d['lcom*'])
         
     attributes['cbo'] = attributes['cbo']/len(data)
     attributes['lcom*'] = attributes['lcom*']/len(data)
     
-    print(attributes)
+    print(json.dumps(attributes).replace('NaN', r'"Not processed."'))
     
 main()

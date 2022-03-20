@@ -73,15 +73,7 @@ def run():
             if not response["data"]["search"]["pageInfo"]["hasNextPage"]:
                 break
 
-
-        Mongo().insert_many(nodes)    
+        Mongo().insert_many(nodes)
 
     else:
-        print(f"DB já populado com {items_count} itens")    
-
-
-def get_percent(x,y):
-    try: 
-        return (float(x) / float(y))
-    except Exception:
-        return 1
+        print(f"DB já populado com {items_count} itens")

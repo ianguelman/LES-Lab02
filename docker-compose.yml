@@ -12,6 +12,7 @@ services:
       dockerfile: ./Dockerfile
     volumes:
       - "./:/home/python/lab02"
+      - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
       TOKEN: "???"
       API_URL: "https://api.github.com/graphql"
@@ -21,6 +22,7 @@ services:
       PRIMARY_COLLECTION: github
       DATABASE_USERNAME: root
       DATABASE_PASSWORD: LAB02
+
 
   mongo:
     image: mongo
@@ -37,3 +39,4 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: LAB02
     ports:
       - "27017:27017"
+    command: mongod --quiet --logpath /dev/null
