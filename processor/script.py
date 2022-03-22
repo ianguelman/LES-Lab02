@@ -10,11 +10,8 @@ def main():
     data = json.load(file)
 
     attributes = {
-        'dit': float(data[0]['dit']),
-        'loc' : [],
-        'loc:mean': 0.0,
-        'loc:median': 0.0,
-        'loc:std': 0.0, 
+        'dit': 0,
+        'loc' : 0,
         'cbo' : [],
         'cbo:mean': 0.0,
         'cbo:median': 0.0,
@@ -29,12 +26,16 @@ def main():
         for metric in ['loc', 'cbo', 'lcom*']:
             if d[metric] != 'NaN':
                 attributes[metric] += [float(d[metric])]
+        if float(d['dit']) > attributes['dit']:
+            attributes['dit'] = float(d['dit'])
     
-    for metric in ['loc', 'cbo', 'lcom*']:
+    for metric in ['cbo', 'lcom*']:
         attributes[metric+':mean'] = np.mean(attributes[metric])
         attributes[metric+':median'] = np.median(attributes[metric])
         attributes[metric+':std'] = np.std(attributes[metric])
         del attributes[metric]
+
+    attributes['loc'] = np.sum(attributes['loc'])
 
     print(json.dumps(attributes).replace('NaN', r'"Not processed."'))
     
