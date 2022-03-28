@@ -11,7 +11,7 @@ def main():
 
     attributes = {
         'dit': 0,
-        'loc' : 0,
+        'loc' : [],
         'cbo' : [],
         'cbo:mean': 0.0,
         'cbo:median': 0.0,
