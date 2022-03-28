@@ -11,7 +11,7 @@ documents = Mongo().get_all_documents()
 
 def loop(start, stop):
     for i in range(start, stop):
-        if not documents[i]['processed']:
+        if documents[i]['processed'] is False:
             execute(documents[i]['url'])
             
 size = len(documents) / threads
